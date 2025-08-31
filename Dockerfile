@@ -1,19 +1,19 @@
 # Stage 1: Build
-FROM gradle:8-jdk17 AS build
+FROM gradle:8-jdk21 AS build
 
 # Set working directory
 WORKDIR /app
 
-# Copy Gradle wrapper and build files
+# Copy Gradle wrapper and build files, including gradle.properties
 COPY gradlew .
 COPY gradle ./gradle
-COPY build.gradle settings.gradle ./
+COPY build.gradle settings.gradle gradle.properties ./
 
 # Make gradlew executable
 RUN chmod +x gradlew
 
-# Pre-fetch dependencies (Docker layer caching)
-RUN ./gradlew dependencies
+# (Optional) Pre-fetch dependencies to speed up rebuilds
+RUN ./gradlew build --dry-run
 
 # Copy source code
 COPY src ./src
