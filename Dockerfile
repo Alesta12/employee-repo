@@ -27,7 +27,7 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 # Copy fat JAR from build stage
-COPY --from=build /app/build/libs/*-all.jar app.jar
+COPY --from=build /app/build/libs/*SNAPSHOT.jar app.jar
 
 # Expose Quarkus default port
 EXPOSE 8080
