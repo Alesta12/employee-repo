@@ -1,5 +1,9 @@
+# Ignore everything by default
 *
-!build/*-runner
-!build/*-runner.jar
-!build/lib/*
-!build/quarkus-app/*
+
+# Allow files needed for build
+!gradlew
+!gradle/
+!build.gradle
+!settings.gradle
+!src/
