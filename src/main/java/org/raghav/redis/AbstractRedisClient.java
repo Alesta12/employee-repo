@@ -1,14 +1,20 @@
 package org.raghav.redis;
+
 import redis.clients.jedis.Jedis;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public abstract class AbstractRedisClient<T> {
 
     protected final Jedis jedis;
 
     public AbstractRedisClient(RedisConfig config) {
-        jedis = new Jedis(config.getHost(), config.getPort());
-        if (config.getPassword() != null && !config.getPassword().isEmpty()) {
-            jedis.auth(config.getPassword());
+        try {
+            // Parse the full Redis URL (rediss://username:password@host:port)
+            URI redisUri = new URI(config.getRedisUrl());
+            jedis = new Jedis(redisUri,10000,10000);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("Invalid Redis URL: " + config.getRedisUrl(), e);
         }
     }
 
@@ -17,6 +23,7 @@ public abstract class AbstractRedisClient<T> {
     }
 
     protected abstract String serializeValue(T value);
+
     protected abstract T deserializeValue(String value);
 
     public void set(String key, T value, int ttlSeconds) {
