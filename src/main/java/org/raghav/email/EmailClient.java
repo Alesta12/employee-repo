@@ -56,7 +56,7 @@ public class EmailClient {
             throw new RuntimeException("OTP is null or empty");
         }
 
-        System.out.println("Sending OTP from: " + fromEmail + " to: " + toEmail + " OTP: " + otp);
+       // System.out.println("Sending OTP from: " + fromEmail + " to: " + toEmail + " OTP: " + otp);
 
         // Setup Mailjet SMTP
         Properties props = new Properties();
@@ -79,13 +79,15 @@ public class EmailClient {
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             msg.setSubject("Your OTP Code");
             msg.setText("Your OTP is: " + otp);
-
             Transport.send(msg);
-
-            // Save to Redis
-            employeeObjectRedisClient.set(toEmail, employee, 300); // 5 minutes
-            stringRedisClient.set("otp_" + toEmail, otp, 300);     // 5 minutes
-
+            Thread.startVirtualThread(() -> {
+                try {
+                    employeeObjectRedisClient.set(toEmail, employee, 300); // 5 minutes
+                    stringRedisClient.set("otp_" + toEmail, otp, 300);     // 5 minutes
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send OTP: " + e.getMessage(), e);
         }
