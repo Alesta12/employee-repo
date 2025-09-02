@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+
     // Core Quarkus
     implementation 'io.quarkus:quarkus-arc'                 // CDI
     implementation 'io.quarkus:quarkus-resteasy'            // RESTEasy JAX-RS support
@@ -33,6 +35,7 @@ dependencies {
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }
+
 
 
 group = 'org.raghav'
