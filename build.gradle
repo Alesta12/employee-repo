@@ -10,18 +10,32 @@ repositories {
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation 'io.quarkus:quarkus-arc'
+
+    // Core Quarkus
+    implementation 'io.quarkus:quarkus-arc'                 // CDI
+    implementation 'io.quarkus:quarkus-resteasy'            // RESTEasy JAX-RS support
+    implementation 'io.quarkus:quarkus-resteasy-jackson'    // JSON support
+
+    // Mail
     implementation 'com.sun.mail:jakarta.mail:2.0.1'
     implementation 'jakarta.activation:jakarta.activation-api:2.1.2'
+
+    // MongoDB
     implementation 'org.mongodb:mongodb-driver-sync:4.12.1'
     implementation 'org.mongodb:bson:4.12.1'
-    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
+    // Redis
     implementation 'redis.clients:jedis:6.2.0'
+
+    // Utilities
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-    implementation 'io.quarkus:quarkus-resteasy-jackson'
+
+    // Testing
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }
+
 
 group = 'org.raghav'
 version = '1.0.0-SNAPSHOT'
