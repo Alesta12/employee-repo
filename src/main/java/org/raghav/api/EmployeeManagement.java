@@ -12,6 +12,7 @@ import org.raghav.redis.RedisConfig;
 import org.raghav.redis.StringRedisClient;
 
 @Path("/employee-management")
+@CrossOrigin(origins = "*")
 public class EmployeeManagement {
 
     private final EmailClient emailClient;
