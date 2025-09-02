@@ -10,6 +10,7 @@ import org.raghav.otpService.OtpClient;
 import org.raghav.redis.ObjectRedisClient;
 import org.raghav.redis.RedisConfig;
 import org.raghav.redis.StringRedisClient;
+import org.jboss.resteasy.annotations.jaxrs.CrossOrigin;
 
 @Path("/employee-management")
 @CrossOrigin(origins = "*")
