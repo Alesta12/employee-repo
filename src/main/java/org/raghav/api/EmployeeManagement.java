@@ -48,14 +48,21 @@ public class EmployeeManagement {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticateOtp(@QueryParam("otp") String otp, @QueryParam("email") String email) {
         try {
-            Employee employee  = otpClient.authenticateOtp(otp, email);
-            if(employee != null){
+            Employee employee = otpClient.authenticateOtp(otp, email);
+            if (employee != null) {
                 employeeService.createEmployee(employee);
+                return Response.ok(employee)
+                        .build();
+            } else {
+                return Response.status(Response.Status.UNAUTHORIZED)
+                        .entity("{\"message\":\"Invalid OTP\"}")
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
             }
-            return Response.ok("Authenticated").build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Failed to authenticate: " + e.getMessage())
+                    .entity("{\"message\":\"Failed to authenticate: " + e.getMessage() + "\"}")
+                    .type(MediaType.APPLICATION_JSON)
                     .build();
         }
     }
